@@ -35,9 +35,9 @@ func main() {
 	// Prompt for input
   if !isRunningWithRlwrap() {
 		// Re-execute the program with rlwrap
-		cmd := exec.Command("rlwrap", os.Args[0], "--with-rlwrap")
-    fmt.Println("[INFO] -", cmd)
-    fmt.Println("[INFO] - Running command with rlwrap.")
+		cmd := exec.Command("rlwrap", "-a", os.Args[0], "--with-rlwrap")
+    fmt.Println("\033[1;33m[INFO]\033[0m -", cmd)
+    fmt.Println("\033[1;33m[INFO]\033[0m - Running command with rlwrap.")
 		cmd.Stdin, cmd.Stdout, cmd.Stderr = os.Stdin, os.Stdout, os.Stderr
 		if err := cmd.Run(); err != nil {
 			fmt.Println("Error re-executing with rlwrap:", err)
