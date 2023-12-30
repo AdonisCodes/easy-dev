@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-  "strings"
-)
+  "strings")
 
 func promptForInput(prompt string) string {
 	fmt.Print(prompt)
