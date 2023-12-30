@@ -84,7 +84,11 @@ func main() {
   if err != nil {
     fmt.Printf("Error adding new file: %v\n", err)
   }
+  
+  err = executeCommand("git", "add", ".")
+  err = executeCommand("git", "commit", "-m", "Added new branch: " + newBranchName)
   err = executeCommand("git", "push", "--set-upstream", "origin", newBranchName)
+  err = executeCommand("git", "push")
   if err != nil {
     fmt.Printf("Error pushing new branch: %v\n", err)
   }
