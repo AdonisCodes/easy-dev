@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+  "time"
   "strings")
 
 func promptForInput(prompt string) string {
@@ -70,6 +71,24 @@ func main() {
 		fmt.Printf("Error creating/switching to branch: %v\n", err)
 		os.Exit(1)
 	}
+  fileContents := "Branch: " + newBranchName + " - " + time.Now().Format("2006-01-02 15:04:05")
+
+  // Now append this as a new line to the "branches" file
+  f, err := os.OpenFile("README.md", os.O_APPEND|os.O_WRONLY, 0644)
+  f.Write([]byte(fileContents))
+
+  if err != nil {
+    fmt.Printf("Error creating new file: %v\n", err)
+  }
+  err = executeCommand("git", "add", ".")
+  if err != nil {
+    fmt.Printf("Error adding new file: %v\n", err)
+  }
+  err = executeCommand("git", "push", "--set-upstream", "origin", newBranchName)
+  if err != nil {
+    fmt.Printf("Error pushing new branch: %v\n", err)
+  }
+  // This will push this branch & the new readme file to the remote repository
 
 	// Open the specified code editor
 	switch codeEditor {
@@ -77,6 +96,12 @@ func main() {
 		err = executeCommand("code", ".")
 	case "nvim":
 		err = executeCommand("nvim", ".")
+  case "lvim":
+    err = executeCommand("lvim", "./")
+  case "vim":
+    err = executeCommand("vim", ".")
+  case "kate":
+    err = executeCommand("kate", ".")
 	default:
 		fmt.Println("Unsupported code editor")
 		os.Exit(1)
